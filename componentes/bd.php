@@ -1,6 +1,6 @@
 <?php
 try {
-	$PDO = new PDO("mysql:host=localhost; dbname=estoque", 
+	$PDO = new PDO("mysql:host=localhost; dbname=estoque; charset=utf8", 
 "estoque", "3st0qu3");
 	$PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }

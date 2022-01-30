@@ -1,5 +1,5 @@
 <?php
-include "header.php";
+include "../pages/header.php";
 if (isset($_POST["botao"]) && $_POST["botao"] == "Cadastrar") { //se clicou no botão Cadastrar
 	try {
 		$stmt = $PDO->prepare("SET CHARACTER SET utf8");
@@ -100,5 +100,5 @@ if (isset($_GET["id"]) && !isset($_POST["botao"])) {
 </form>
 </div>
 <?php
-include "footer.php";
+include "../pages/footer.php";
 ?>

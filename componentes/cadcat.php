@@ -1,5 +1,5 @@
 <?php
-include "header.php";
+include "../pages/header.php";
 if (isset($_POST["botao"]) && $_POST["botao"] == "Cadastrar") { //se clicou no botão Cadastrar
 	try {
 		$stmt = $PDO->prepare("SET CHARACTER SET utf8");
@@ -17,7 +17,7 @@ if (isset($_POST["botao"]) && $_POST["botao"] == "Cadastrar") { //se clicou no b
 if (isset($_POST["botao"]) && $_POST["botao"] == "Excluir") { //Se clicou no botão excluir
 	$stmt = $PDO->prepare("SET CHARACTER SET utf8");
 	$stmt->execute();
-	$stmt = $PDO->prepare("select * from categoria where idcat = :id;");
+	$stmt = $PDO->prepare("select * from categoria where idcateg = :id;");
 	$stmt->bindParam(':id', $_POST['alterar']);
 	$stmt->execute();
 	if ($linha = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -32,7 +32,7 @@ if (isset($_POST["botao"]) && $_POST["botao"] == "Excluir") { //Se clicou no bot
 if (isset($_GET["acao"]) && $_GET["acao"] == "ConfirmaExcluir") {
 	//Se clicou no botão que confirma a exclusão
 	try {
-		$stmt = $PDO->prepare("delete from categoria where idcat = :id;"); //faz um comando sql
+		$stmt = $PDO->prepare("delete from categoria where idcateg = :id;"); //faz um comando sql
 		$stmt->bindParam(':id', $_GET['id']); //preenche com o código a excluir
 		$stmt->execute(); //exclui o registro
 	} catch (PDOException $e) {
@@ -44,7 +44,7 @@ if (isset($_POST["botao"]) && $_POST["botao"] == "Salvar") //Se clicou no botão
 	try {
 		$stmt = $PDO->prepare("SET CHARACTER SET utf8");
 		$stmt->execute();
-		$stmt = $PDO->prepare("update categoria set descricao = :descricao, observacao = :observacao  where idcat = :id");
+		$stmt = $PDO->prepare("update categoria set descricao = :descricao, observacao = :observacao  where idcateg = :id");
 		$stmt->bindParam(':descricao', $_POST['descricao']);
 		$stmt->bindParam(':observacao', $_POST['observacao']);
 		$stmt->bindParam(':id', $_POST['alterar']);
@@ -65,7 +65,7 @@ if (isset($_GET["id"]) && !isset($_POST["botao"])) {
 	// preenchido os campos com os já existentes antes
 	$stmt = $PDO->prepare("SET CHARACTER SET utf8");
 	$stmt->execute();
-	$stmt = $PDO->prepare("select * from categoria where idcat = :id;");
+	$stmt = $PDO->prepare("select * from categoria where idcateg = :id;");
 	$stmt->bindParam(':id', $_GET['id']);
 	$stmt->execute();
 	if ($linha = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -78,7 +78,7 @@ if (isset($_GET["id"]) && !isset($_POST["botao"])) {
 <form name="fCadUsuario" id="fCadUsuario" method="post" action="cadcat.php">
 	<fieldset>
 		<legend>Cadastro de Categorias</legend>
-		<a href="#" onClick=<?php echo "\"window.open('popupconsulta.php?table=categoria&pk=idcat&field=descricao&cadastro=Categoria&location=cadcat.php', 'Consulta', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=500, height=400'); return false;\""; ?>><img src="search.png" width="32"></a>
+		<a href="#" onClick=<?php echo "\"window.open('popupconsulta.php?table=categoria&pk=idcateg&field=descricao&cadastro=Categoria&location=cadcat.php', 'Consulta', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=500, height=400'); return false;\""; ?>><img src="search.png" width="32"></a>
 		<br><br>
 		<label for="descricao">Descrição:</label><br />
 		<input type="text" name="descricao" id="descricao" size="50" maxlength="128" value="<?= $descricao ?>" required autofocus /><br />
@@ -100,5 +100,5 @@ if (isset($_GET["id"]) && !isset($_POST["botao"])) {
 </form>
 </div>
 <?php
-include "footer.php";
+include "../pages/footer.php";
 ?>

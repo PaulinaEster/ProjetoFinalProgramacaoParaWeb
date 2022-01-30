@@ -13,9 +13,9 @@ else $title = "Consulta";
 ?>
 
 <script type="text/javascript"> //função javascript que retornará o codigo 
-function retorna(id, descricao)//passando um parametro 
+function retorna(id, nome)//passando um parametro 
     { 
-    //a janela mãe recebe o id, você precisa passar o descricao do formulario e do textfield que receberá o valor passado por parametro. 
+    //a janela mãe recebe o id, você precisa passar o nome do formulario e do textfield que receberá o valor passado por parametro. 
     var location = <?php echo "'".$location."'\n"; ?>
     window.opener.document.location.href = location+'?id='+id;
     window.close();	//fecha a janla popup 
@@ -58,6 +58,7 @@ function retorna(id, descricao)//passando um parametro
 	else {
 			$sqlconsulta = "SELECT * from ".$table." order by ".$field;
 		}
+    if (isset($_GET["rev"])) $sqlconsulta = $sqlconsulta." desc ";
     $consulta = $PDO->query($sqlconsulta);
     $total = $consulta->rowCount(); //conta o total de itens              
     $registros = 8;//seta a quantidade para 8 itens por página
@@ -78,10 +79,10 @@ function retorna(id, descricao)//passando um parametro
 	$cont=0;
 	echo '<table>';
 	while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
-        $descricao= $linha[$field];
-        $descricao= str_replace("'", " ", $descricao);
+        $nome= $linha[$field];
+        $nome= str_replace("'", " ", $nome);
 		echo "<tr><td><a href=\"javascript:retorna('{$linha[$pk]}', '')\">{$linha[$pk]}</a></td>";
-		echo "<td><a href=\"javascript:retorna('{$linha[$pk]}', '')\">{$descricao}</a></td></tr>";
+		echo "<td><a href=\"javascript:retorna('{$linha[$pk]}', '')\">{$nome}</a></td></tr>";
 		$cont++;
 		}
 	for($i=$cont;$i<=$registros;$i++) echo "<tr><td>&nbsp</td><td></td></tr>";
@@ -120,5 +121,17 @@ function retorna(id, descricao)//passando um parametro
     }
 ?> 
 </form>
+<script type="text/javascript">
+ var params = window.location.search;
+ var url = window.location.pathname;
+ if (window.history.replaceState) {
+                    window.history.replaceState('Object', this.title,  url);
+                } else {
+                    //para o IE vc tem que redirecionar
+                     if (url.indexOf(params) != -1) {
+                        window.location.href = url;
+                    }
+                }
+</script>
 </body> 
 </html> 
